@@ -125,7 +125,7 @@ with tab1:
         )
 
         metadata = {
-            "code-map" : code_map,
+            "code_map" : code_map,
             "padding" : padding
         }
 
