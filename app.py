@@ -144,14 +144,21 @@ with tab2 :
 
     if bin_file and metadata_file:
         compressed_bytes = bin_file.read()
-        metadata = json.load(metadata_file)
-
-        st.write("Loaded metadata keys:", list(metadata.keys()))
-
-        code_map = metadata["code_map"]
-        padding = metadata["padding"]
-
-        decompressed_text = decompress(compressed_bytes, code_map, padding)
-
-        st.subheader("Decompressed Text")
-        st.text_area("Result : ", value = decompressed_text, height=200, disabled=True)
+        
+        try:
+            metadata = json.load(metadata_file)
+            
+            st.write("Contents of uploaded JSON:", metadata)
+            
+            code_map = metadata["code_map"]
+            padding = metadata["padding"]
+            
+            decompressed_text = decompress(compressed_bytes, code_map, padding)
+            
+            st.subheader("Decompressed Text")
+            st.text_area("Result : ", value=decompressed_text, height=200, disabled=True)
+            
+        except KeyError as e:
+            st.error(f"Error: The uploaded JSON is missing the key {e}")
+        except json.JSONDecodeError:
+            st.error("Error: The uploaded file is not a valid JSON document.")
