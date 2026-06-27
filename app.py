@@ -99,7 +99,18 @@ tab1, tab2 = st.tabs(["Compress", "Decompress"])
 
 with tab1:
     st.header("Compress text")
-    user_input = st.text_area("Enter text to compress : ", height=200)
+
+    uploaded_file = st.file_uploader("Choose a text file", type=["txt"])
+    
+    file_text = ""
+    if uploaded_file is not None:
+        file_text = uploaded_file.read().decode("utf-8")
+    
+    user_input = st.text_area(
+        "Enter text to compress:", 
+        value=file_text if file_text else "", 
+        height=200
+    )
 
     if user_input:
         compressed_bytes, code_map, padding = compress(user_input)
