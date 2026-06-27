@@ -1,4 +1,5 @@
 import streamlit as st
+import json
 import heapq
 
 class Node :
@@ -69,30 +70,86 @@ def compress(text):
 
     return byte_array, codes, padding
 
+def decompress(compressed_bytes, code_map, padding):
+    binary_string = ""
+
+    for byte in compressed_bytes:
+        binary_string += f"{byte:08b}"
+
+    if padding > 0:
+        binary_string = binary_string[:-padding]
+
+    reverse_map = {v : k for k, v in code_map.items()}
+
+    decoded_text = ""
+    current_bits = ""
+
+    for bit in binary_string:
+        current_bits += bit
+        if current_bits in reverse_map:
+            decoded_text += reverse_map[current_bits]
+            current_bits = ""
+
+    return decoded_text
+
+
 st.title("Huffman Text Compressor")
-st.write("Compress your text using Huffman Encoding.")
 
-user_input = st.text_area("Enter text to compress : ", height=200)
+tab1, tab2 = st.tabs(["Compress", "Decompress"])
 
-if user_input:
-    compressed_bytes, code_map, padding = compress(user_input)
+with tab1:
+    st.header("Compress text")
+    user_input = st.text_area("Enter text to compress : ", height=200)
 
-    orig_size = len(user_input)*8
-    comp_size = len(compressed_bytes)*8
+    if user_input:
+        compressed_bytes, code_map, padding = compress(user_input)
 
-    ratio = (1 - (comp_size/orig_size))*100 if orig_size>0 else 0
+        orig_size = len(user_input)*8
+        comp_size = len(compressed_bytes)*8
 
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Original Size", f"{orig_size} bits")
-    col2.metric("Compressed Size", f"{comp_size} bits")
-    col3.metric("Space Saved", f"{ratio:.2f}%")
+        ratio = (1 - (comp_size/orig_size))*100 if orig_size>0 else 0
 
-    st.subheader("Generated Huffman Codes")
-    st.json(code_map)
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Original Size", f"{orig_size} bits")
+        col2.metric("Compressed Size", f"{comp_size} bits")
+        col3.metric("Space Saved", f"{ratio:.2f}%")
 
-    st.download_button(
-        label="Download Compressed File (.bin)", 
-        data=bytes(compressed_bytes), 
-        file_name="compressed.bin", 
-        mime="application/octet-stream"
-    )
+        st.subheader("Generated Huffman Codes")
+        st.json(code_map)
+
+        st.download_button(
+            label="Download Compressed File (.bin)", 
+            data=bytes(compressed_bytes), 
+            file_name="compressed.bin", 
+            mime="application/octet-stream"
+        )
+
+        metadata = {
+            "code-map" : code_map,
+            "padding" : padding
+        }
+
+        st.download_button(
+            label = "Download Metadata (.json)",
+            data=json.dumps(metadata),
+            file_name="metadata.json",
+            mime="application/json"
+        )
+
+with tab2 :
+    st.header("Decompress File")
+
+    bin_file = st.file_uploader("Upload Compressed File (.bin)", type=["bin"])
+    metadata_file = st.file_uploader("Upload Metadata File (.json)", type=["json"])
+
+    if bin_file and metadata_file:
+        compressed_bytes = bin_file.read()
+        metadata = json.load(metadata_file)
+
+        code_map = metadata["code_map"]
+        padding = metadata["padding"]
+
+        decompressed_text = decompress(compressed_bytes, code_map, padding)
+
+        st.subheader("Decompressed Text")
+        st.text_area("Result : ", value = decompressed_text, height=200, disabled=True)
