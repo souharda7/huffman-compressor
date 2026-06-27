@@ -146,6 +146,8 @@ with tab2 :
         compressed_bytes = bin_file.read()
         metadata = json.load(metadata_file)
 
+        st.write("Loaded metadata keys:", list(metadata.keys()))
+
         code_map = metadata["code_map"]
         padding = metadata["padding"]
 
