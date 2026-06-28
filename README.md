@@ -1,10 +1,10 @@
-# 🗜️ Huffman Text Compressor
+# Huffman Text Compressor
 
 A full-stack web application built with Python and Streamlit that performs lossless text compression using the classic **Huffman Encoding** algorithm. 
 
 This tool analyzes the frequency of characters in a given text, builds an optimal binary prefix tree, and encodes the data to significantly reduce its file size compared to standard 8-bit character encoding.
 
-## Deployment link: [Huffman-Compressor](textcompress.streamlit.app)
+## Deployment link: [Huffman-Compressor]([textcompress.streamlit.app](https://textcompress.streamlit.app/))
 
 ## Features
 
@@ -14,14 +14,14 @@ This tool analyzes the frequency of characters in a given text, builds an optima
 * **Real-Time Analytics:** Calculates and displays the original bit size, compressed bit size, and the total space saved as a percentage.
 * **Under the Hood:** Automatically manages bit-padding and binary-to-byte array conversions required for standard file compression workflows.
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 * **Language:** Python 3.x
 * **Frontend/Framework:** Streamlit
 * **Algorithms:** Huffman Coding, Binary Tree Traversal, Min-Heaps (`heapq`)
 * **Deployment:** Streamlit Community Cloud
 
-## 🚀 How to Run Locally
+## How to Run Locally
 
 To run this project on your local machine, follow these steps:
 
