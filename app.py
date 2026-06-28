@@ -1,5 +1,6 @@
 import streamlit as st
 import json
+import graphviz
 import heapq
 
 class Node :
@@ -92,6 +93,35 @@ def decompress(compressed_bytes, code_map, padding):
 
     return decoded_text
 
+def create_tree_visualizer(root):
+    graph = graphviz.Digraph(engine='dot')
+
+    def traverse(node):
+        if not node:
+            return
+        
+        node_id = str(id(node))
+
+        if node.char is not None:
+            label = f"Byte : {node.char}\nFreq: {node.freq}"
+            graph.node(node_id, label, shape="box", style="filled", color="lightblue")
+        else :
+            label = f"Freq : {node.freq}"
+            graph.node(node_id, label, shape="ellipse")
+        
+        if node.left:
+            left_id = str(id(node.left))
+            graph.edge(node_id, left_id, label="0")
+            traverse(node.left)
+
+        if node.right:
+            right_id = str(id(node.right))
+            graph.edge(node_id, right_id, label="1")
+            traverse(node.right)
+
+    traverse(root)
+    return graph
+
 
 st.title("Huffman Text Compressor")
 
@@ -104,7 +134,7 @@ with tab1:
     
     file_text = ""
     if uploaded_file is not None:
-        file_text = uploaded_file.read().decode("utf-8")
+        file_text = uploaded_file.read()
     
     user_input = st.text_area(
         "Enter text to compress:", 
@@ -113,6 +143,20 @@ with tab1:
     )
 
     if user_input:
+
+        freq = {}
+        for byte in user_input:
+            freq[byte] = freq.get(byte, 0) + 1
+
+        root = build_tree(freq)
+
+        st.subheader("Huffman Tree Structure")
+        if len(freq) <= 50:
+            tree_graph = create_tree_visualizer(root)
+            st.graphviz_chart(tree_graph)
+        else :
+            st.warning("Tree is too large to render visually (over 50 unique bytes)!")
+
         compressed_bytes, code_map, padding = compress(user_input)
 
         orig_size = len(user_input)*8
