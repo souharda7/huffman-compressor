@@ -1,16 +1,18 @@
-# 📦 Universal Huffman File Compressor
+# 🗜️ Huffman Text Compressor
 
-A full-stack web application built with Python and Streamlit that performs lossless data compression using the Huffman Encoding algorithm. 
+A full-stack web application built with Python and Streamlit that performs lossless text compression using the classic **Huffman Encoding** algorithm. 
 
-Unlike basic text compressors, this tool operates at the **byte-level (8-bit)**, meaning it can ingest, analyze, and compress *any* uncompressed raw file type by building an optimal prefix code tree based on the frequency of raw byte values.
+This tool analyzes the frequency of characters in a given text, builds an optimal binary prefix tree, and encodes the data to significantly reduce its file size compared to standard 8-bit character encoding.
 
-## ✨ Features
+# Deployment link: textcompressor.streamlit.app
 
-* **Universal Byte-Level Compression:** Reads files as raw byte arrays, allowing for the compression of highly redundant data files (Log files, raw `.bmp` images, large unminified codebases, etc.).
-* **Lossless Decompression:** 100% accurate file reconstruction using custom-generated JSON metadata dictionaries.
+## Features
+
+* **Text-Based Compression:** Paste raw text or upload a `.txt` file to instantly generate a compressed binary payload.
+* **Lossless Decompression:** 100% accurate text reconstruction using custom-generated JSON metadata dictionaries.
 * **Interactive Web Interface:** A clean, dual-tab UI built with Streamlit for seamless file uploading, processing, and downloading.
-* **Real-Time Analytics:** Calculates and displays original size, compressed size, and total space saved.
-* **Metadata Handling:** Automatically manages padding bits and binary mapping structures required for standard file compression workflows.
+* **Real-Time Analytics:** Calculates and displays the original bit size, compressed bit size, and the total space saved as a percentage.
+* **Under the Hood:** Automatically manages bit-padding and binary-to-byte array conversions required for standard file compression workflows.
 
 ## 🛠️ Technology Stack
 
@@ -28,38 +30,47 @@ To run this project on your local machine, follow these steps:
 git clone [https://github.com/your-username/huffman-compressor.git](https://github.com/your-username/huffman-compressor.git)
 cd huffman-compressor
 ```
+
 2. Set up a virtual environment (Recommended)
 Mac/Linux:
 
-Bash
+```bash
 python -m venv venv
 source venv/bin/activate
+```
+
 Windows:
 
-Bash
+```bash
 python -m venv venv
 venv\Scripts\activate
+```
+
 3. Install dependencies
-Bash
+   
+```bash
 pip install -r requirements.txt
+```
+
 4. Launch the application
-Bash
+
+```bash
 streamlit run app.py
-📖 Usage Guide
-Compressing a File
+```
+
+### Usage Guide
+# Compressing Text
 Navigate to the Compress tab.
 
-Upload any uncompressed file.
+Type/paste your text, or upload a standard .txt file.
 
-The app will generate an optimal Huffman tree and encode the file.
+The app will generate an optimal Huffman tree and encode the text.
 
 Download the compressed.bin (the compressed payload) and the metadata.json (the lookup table required for reconstruction).
 
-Decompressing a File
+# Decompressing a File
 Navigate to the Decompress tab.
 
 Upload both the compressed.bin and metadata.json files generated during the compression phase.
 
-The app will reconstruct the original file bit-by-bit.
-
-Download the restored file, which will automatically retain its original extension.
+The app will reconstruct the original text bit-by-bit and display it on the screen.
