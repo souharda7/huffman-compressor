@@ -4,7 +4,7 @@ A full-stack web application built with Python and Streamlit that performs lossl
 
 This tool analyzes the frequency of characters in a given text, builds an optimal binary prefix tree, and encodes the data to significantly reduce its file size compared to standard 8-bit character encoding.
 
-## Deployment link: textcompress.streamlit.app
+## Deployment link: [Huffman-Compressor](textcompress.streamlit.app)
 
 ## Features
 
@@ -58,19 +58,19 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-### Usage Guide
-# Compressing Text
+# Usage Guide
+## Compressing Text
 Navigate to the Compress tab.
 
-Type/paste your text, or upload a standard .txt file.
+Type/paste your text, or upload a standard `.txt` file.
 
 The app will generate an optimal Huffman tree and encode the text.
 
-Download the compressed.bin (the compressed payload) and the metadata.json (the lookup table required for reconstruction).
+Download the `compressed.bin` (the compressed payload) and the metadata.json (the lookup table required for reconstruction).
 
-# Decompressing a File
+## Decompressing a File
 Navigate to the Decompress tab.
 
-Upload both the compressed.bin and metadata.json files generated during the compression phase.
+Upload both the `compressed.bin` and `metadata.json` files generated during the compression phase.
 
 The app will reconstruct the original text bit-by-bit and display it on the screen.
