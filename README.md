@@ -4,7 +4,7 @@ A full-stack web application built with Python and Streamlit that performs lossl
 
 This tool analyzes the frequency of characters in a given text, builds an optimal binary prefix tree, and encodes the data to significantly reduce its file size compared to standard 8-bit character encoding.
 
-## Deployment link: [Huffman-Compressor]([textcompress.streamlit.app](https://textcompress.streamlit.app/))
+## Deployment link: [Huffman-Compressor](https://textcompress.streamlit.app/)
 
 ## Features
 
